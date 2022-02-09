@@ -16,7 +16,7 @@ class Funcionarios extends Pessoa
     }
     public function alteraNome(string $nome): void
     {
-        $this->validaNomeTitular($nome);
+        $this->validaNome($nome);
         $this->nome = $nome;
     }
 
