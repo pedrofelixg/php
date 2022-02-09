@@ -2,9 +2,9 @@
 
 require_once 'autoLoad.php';
 
-use Alura\Banco\Modelo\Conta\Titular;
 use Alura\Banco\Modelo\Endereco;
 use Alura\Banco\Modelo\CPF;
+use Alura\Banco\Modelo\Conta\Titular;
 use Alura\Banco\Modelo\Conta\Conta;
 use Alura\Banco\Modelo\Conta\ContaPoupanca;
 use Alura\Banco\Modelo\Conta\ContaCorrente;
@@ -13,7 +13,7 @@ $endereco = new Endereco('Buenos Aires', 'Centro', 'Cajueiro', '23');
 $vinicius = new Titular(new CPF('123.456.789-10'), 'Vinicius Dias', $endereco);
 $primeiraConta = new ContaCorrente($vinicius);
 $primeiraConta->deposita(500);
-$primeiraConta->saca(300); // isso é ok
+$primeiraConta->saca(300);
 
 echo $primeiraConta->recuperaNomeTitular() . PHP_EOL;
 echo $primeiraConta->recuperaCpfTitular() . PHP_EOL;
