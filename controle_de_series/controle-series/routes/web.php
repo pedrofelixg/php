@@ -1,24 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SeriesController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/series', function () {
-    $series = [
-        'The Mandalorian',
-        'O Livro de Boba Fett',
-        'The Witcher',
-        'Wandavision',
-        'Star Wars: Clone Wars'
-    ];
-    $html = "<ul>";
-    foreach ($series as $serie) {
-        $html .= "<li>$serie</li>";
-    }
-    $html .= "</ul>";
-
-    return $html;
-});
+# Route::get('/series', 'App\Http\Controllers\SeriesController@listarSeries'); <- Sintaxe do Laravel usada na Alura
+Route::get('/series', [SeriesController::class, 'index']);
