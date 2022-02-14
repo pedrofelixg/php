@@ -19,11 +19,14 @@
     <ul class="list-group" >
         @foreach($livrosDesejados as $listaLivros)
             <li class="list-group-item d-flex justify-content-between align-items-center">{{$listaLivros->nome}}
-                <form method="post" action="/listaLivros/remover/{{$listaLivros->id}}" onsubmit="return confirm('Deseja remover {{ addslashes($listaLivros->nome) }}?')">
-                    @csrf
-                    @method('DELETE')
-                    <button href='/listaLivros/remover/{id}' class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                </form>
+                <span class="d-flex">
+                    <button href="/livros/{{$listaLivros->id}}/autor" class="btn btn-info btn-sm mr-2"><i class="fas fa-external-link-alt"></i></button>
+                    <form method="post" action="/listaLivros/remover/{{$listaLivros->id}}" onsubmit="return confirm('Deseja remover {{ addslashes($listaLivros->nome) }}?')">
+                        @csrf
+                        @method('DELETE')
+                        <button href='/listaLivros/remover/{id}' class="btn btn-danger mr-2"><i class="far fa-trash-alt"></i></button>
+                    </form>
+                </span>
             </li>
         @endforeach
     </ul>
