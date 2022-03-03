@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
+use App\Models\Episodio;
 use App\Models\Serie;
+use App\Models\Temporadas;
+use App\Service\CriadorDeSerie;
+use App\Service\RemovedorDeSerie;
 use Illuminate\Http\Request;
 
 class SeriesController extends Controller
@@ -21,28 +25,24 @@ class SeriesController extends Controller
         return view('series.create');
     }
 
-    public function store(SeriesFormRequest $request)
+    public function store(SeriesFormRequest $request, CriadorDeSerie $criadorDeSerie)
     {
-        $serie = Serie::create(['nome' => $request->nome]);
-
-        $qtdTemporadas = $request->qtd_temporadas;
-        for ($i = 1; $i <= $qtdTemporadas; $i++) {
-            $temporada = $serie->temporadas()->create(['numero' => $i]);
-            for ($j = 1; $j <= $request->ep_por_temporada; $j++) {
-                $episodios = $temporada->episodios()->create(['numero' => $j]);
-            }
-        }
+        $serie = $criadorDeSerie->criarSerie(
+            $request->nome,
+            $request->qtd_temporadas,
+            $request->ep_por_temporada
+            // jamais separar o $request da seta (->)
+        );
 
        $request->session()->flash('mensagem', "Série {$serie->id} e suas temporadas foram criada com sucesso {$serie->nome}");
 
        return redirect()->route('listar_series');
     }
 
-    public function destroy(Request $request)
+    public function destroy(Request $request, RemovedorDeSerie $removedorDeSerie)
     {
-        Serie::destroy($request->id);
-        $request->session()->flash('mensagem', "Série e suas temporadas removidas com sucesso");
-
+        $nomeSerie = $removedorDeSerie->removerSerie($request->id);
+        $request->session()->flash('mensagem', "Série $nomeSerie e suas temporadas removidas com sucesso");
         return redirect()->route('listar_series');
     }
 
